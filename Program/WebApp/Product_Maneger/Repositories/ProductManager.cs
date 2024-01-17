@@ -12,10 +12,12 @@ namespace Product_Maneger.Repositories
     {
         private readonly IMapper _mapper;
         private readonly IMemoryCache _cache;
-        public ProductManager(IMapper mapper, IMemoryCache memoryCache)
+        private readonly IConfiguration _configuration;
+        public ProductManager(IMapper mapper, IMemoryCache memoryCache, IConfiguration configuration)
         {
             _mapper = mapper;
             _cache = memoryCache;
+            _configuration = configuration;
         }
         public IEnumerable<ProductDTO> GetProducts()
         {
@@ -23,7 +25,7 @@ namespace Product_Maneger.Repositories
                 return productsCache;
 
             List<Product> products = new List<Product>();
-            using (var db = new ContextDataBase())
+            using (var db = new ContextDataBase(_configuration.GetValue<string>("PathDataBase")))
             {
                 var cat = db.Categories.ToList();
                 products = db.Products.ToList();
@@ -36,7 +38,7 @@ namespace Product_Maneger.Repositories
         }
         public int AddProduct(ProductDTO productDTO)
         {
-            using (var db = new ContextDataBase())
+            using (var db = new ContextDataBase(_configuration.GetValue<string>("PathDataBase")))
             {
                 var cat = db.Categories.ToList();
                 var products = db.Products.ToList();
@@ -54,7 +56,7 @@ namespace Product_Maneger.Repositories
         public bool DeleteProduct(int id)
         {
             List<Product> products = new List<Product>();
-            using (var db = new ContextDataBase())
+            using (var db = new ContextDataBase(_configuration.GetValue<string>("PathDataBase")))
             {
                 var cat = db.Categories.ToList();
                 products = db.Products.ToList();
@@ -70,7 +72,7 @@ namespace Product_Maneger.Repositories
         }
         public bool AddProductPrice(int id, int price)
         {
-            using (var db = new ContextDataBase())
+            using (var db = new ContextDataBase(_configuration.GetValue<string>("PathDataBase")))
             {
                 var cat = db.Categories.ToList();
                 var products = db.Products.ToList();

@@ -31,8 +31,11 @@ namespace Product_Maneger
             builder.Host.ConfigureContainer<ContainerBuilder>(contaierBuilder => {
                 contaierBuilder.RegisterType<CategoryManager>().As<ICategoryManager>();
             });
+            builder.Host.ConfigureContainer<ContainerBuilder>(contaierBuilder => {
+                contaierBuilder.RegisterType<ProductControllerCSV>().As<IProductControllerCSV>();
+            });
 
-            //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
             var app = builder.Build();
 

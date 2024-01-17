@@ -8,11 +8,15 @@ namespace Product_Maneger.DataBase
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        private readonly string _sourceDB;
+        public ContextDataBase(string sourceDB)
+        {
+            _sourceDB = sourceDB;
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlite("Data Source=Product_Maneger_DB.db");
-            optionsBuilder.UseSqlite("Data Source=C:\\Users\\sasha\\GitProgect\\AllGitProgect\\Web_app_C-\\Program\\WebApp\\Product_Maneger\\bin\\Debug\\net7.0\\Product_Maneger_DB.db");
-            //C:\Users\sasha\GitProgect\AllGitProgect\Web_app_C-\Program\WebApp\Product_Maneger\bin\Debug\net7.0\
+            optionsBuilder.UseSqlite($"Data Source={_sourceDB}");
         }
     }
 }
