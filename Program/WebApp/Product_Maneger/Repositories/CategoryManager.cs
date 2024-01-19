@@ -11,14 +11,16 @@ namespace Product_Maneger.Repositories
     {
         private readonly IMapper _mapper;
         private readonly IMemoryCache _cache;
-        public CategoryManager(IMapper mapper, IMemoryCache memoryCache)
+        private readonly IConfiguration _configuration;
+        public CategoryManager(IMapper mapper, IMemoryCache memoryCache, IConfiguration configuration)
         {
             _mapper = mapper;
             _cache = memoryCache;
+            _configuration = configuration;
         }
         public int AddCategory(CategoryDTO categoryDTO)
         {
-            using (var db = new ContextDataBase())
+            using (var db = new ContextDataBase(_configuration.GetValue<string>("PathDataBase")))
             {
                 var cat = db.Products.ToList();
                 var products = db.Categories.ToList();
@@ -45,7 +47,7 @@ namespace Product_Maneger.Repositories
                 return categoriesCache;
 
             List<Category> products = new List<Category>();
-            using (var db = new ContextDataBase())
+            using (var db = new ContextDataBase(_configuration.GetValue<string>("PathDataBase")))
             {
                 var cat = db.Products.ToList();
                 products = db.Categories.ToList();
